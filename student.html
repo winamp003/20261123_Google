@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fbf8f2">
+  <title>오늘의 마음 기록 · 마음쉼</title>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="wrap"><a class="brand" href="./index.html"><span class="logo" aria-hidden="true">m✳</span>마음쉼</a><nav aria-label="주요 메뉴"><a href="./index.html">홈으로</a></nav></header>
+<main id="main" class="student-main wrap">
+  <section class="student-account" aria-label="접속한 Google 계정">
+    <div id="student-profile" hidden><strong id="student-name"></strong><span id="student-email"></span></div>
+    <p id="student-auth-status" role="status">로그인 상태를 확인하고 있어요…</p>
+    <a id="student-login-link" class="text-button" href="./index.html" hidden>첫 화면에서 Google로 로그인하기</a>
+  </section>
+  <fieldset id="student-workspace" disabled hidden>
+  <div class="activity-heading"><p class="eyebrow">오늘의 마음 기록</p><h1>잠깐 쉬어가도 괜찮아.</h1><p>오늘 학교에서의 하루를 이야기하고, 너만의 색으로 남겨봐.</p></div>
+  <ol class="activity-steps" aria-label="활동 순서"><li id="step-key" aria-current="step">연결 준비</li><li id="step-chat">마음 나누기</li><li id="step-draw">그림으로 표현하기</li></ol>
+  <section id="key-panel" class="activity-card key-card" aria-labelledby="key-title">
+    <span class="key-flower" aria-hidden="true">✳</span><h2 id="key-title" tabindex="-1">마음 친구를 만나볼까?</h2>
+    <p>OpenAI API Key를 확인하면 대화를 시작할 수 있어.</p>
+    <form id="key-form"><label for="api-key">OpenAI API Key</label><input id="api-key" name="api-key" type="password" autocomplete="off" spellcheck="false" required placeholder="API Key를 입력해 주세요" aria-describedby="key-description key-status"><button id="connect" class="button primary" type="submit">확인하고 시작하기</button></form>
+    <p id="key-description" class="help">키는 이 페이지의 메모리에만 보관돼요. 확인 시 짧은 API 요청이 발생하며, 대화 내용은 답변 생성을 위해 OpenAI로 전송돼요. API 사용 요금이 발생할 수 있어요.</p>
+    <p id="key-status" class="status" role="status" aria-live="polite"></p>
+    <button id="cancel-key" class="text-button" type="button" hidden>활동으로 돌아가기</button>
+  </section>
+  <div id="activity" hidden>
+    <div class="connection-bar"><span>마음 친구와 연결되었어 <span class="model-label">GPT-5 mini</span></span><button id="change-key" class="text-button" type="button">API Key 변경</button></div>
+    <section id="chat-panel" class="activity-card" aria-labelledby="chat-title">
+      <div class="panel-heading"><div><p class="eyebrow">마음 나누기</p><h2 id="chat-title" tabindex="-1">오늘 학교 공부는 어땠어?</h2></div><span id="turn-count" class="count">대화 0 / 7회</span></div>
+      <p id="turn-help" class="help">3회 이상 이야기한 뒤, 준비가 되면 대화를 마칠 수 있어.</p>
+      <div id="chat-log" class="chat-log" role="log" aria-label="마음 친구와의 대화" aria-live="polite" aria-relevant="additions"></div>
+      <p id="chat-status" class="status" role="status"></p>
+      <form id="chat-form"><label for="message">오늘의 이야기를 들려줘</label><div class="composer"><textarea id="message" rows="3" maxlength="1500" placeholder="오늘 수업에서 기억에 남는 순간은…" required aria-describedby="message-help"></textarea><button id="send" class="button primary" type="submit">보내기</button></div><p id="message-help" class="help">최대 1,500자 · Enter로 전송, Shift + Enter로 줄바꿈</p></form>
+      <div class="chat-end"><p class="help">충분히 이야기했다면, 이제 그림으로 표현해 봐.</p><button id="finish-chat" class="button secondary" type="button" disabled>Chatbot과의 대화 끝내기</button></div>
+    </section>
+    <section id="drawing-panel" class="activity-card" aria-labelledby="drawing-title" hidden>
+      <div class="panel-heading"><div><p class="eyebrow">그림으로 표현하기</p><h2 id="drawing-title" tabindex="-1">오늘의 마음은 어떤 모습일까?</h2></div><span class="drawing-badge">나만의 작은 도화지</span></div>
+      <p class="help">잘 그릴 필요는 없어. 색과 선으로 오늘의 하루를 자유롭게 표현해 봐.</p>
+      <details class="conversation-review"><summary>나눈 이야기 다시 보기</summary><div id="review-log" class="chat-log"></div></details>
+      <fieldset id="drawing-controls" class="drawing-layout"><legend class="visually-hidden">그림 그리기와 편집</legend>
+        <div class="drawing-tools" aria-label="그림 도구">
+          <fieldset><legend>그리기 도구</legend><div class="tool-buttons"><button id="pen" class="tool-button" type="button" aria-pressed="true">펜</button><button id="eraser" class="tool-button" type="button" aria-pressed="false">지우개</button></div></fieldset>
+          <fieldset><legend>색상</legend><div id="palette" class="palette"></div><label class="custom-color" for="custom-color">직접 고르기 <input id="custom-color" type="color" value="#42644c"></label></fieldset>
+          <label class="range-label" for="brightness">펜 명도 <output id="brightness-value" for="brightness">100%</output><input id="brightness" type="range" min="0" max="200" value="100"><span class="help">어둡게 — 원래 색 — 밝게</span></label>
+          <label class="range-label" for="opacity">불투명도 <output id="opacity-value" for="opacity">100%</output><input id="opacity" type="range" min="5" max="100" value="100"></label>
+          <label class="range-label" for="brush-size">브러쉬 크기 <output id="brush-size-value" for="brush-size">12 px</output><input id="brush-size" type="range" min="2" max="60" value="12"></label>
+          <div class="brush-preview" aria-label="현재 펜 미리보기"><span id="brush-preview-dot"></span><span>펜 미리보기</span></div>
+          <div class="tool-buttons"><button id="undo" class="tool-button" type="button" disabled>실행 취소</button><button id="clear-canvas" class="tool-button" type="button" disabled>모두 지우기</button></div>
+        </div>
+        <div class="canvas-area"><canvas id="drawing-canvas" width="1000" height="700" aria-label="오늘의 마음을 그리는 하얀 도화지. 마우스, 터치 또는 펜으로 그릴 수 있어요.">그림을 그리려면 Canvas를 지원하는 브라우저가 필요합니다.</canvas><p class="help">마우스, 터치, 펜으로 그릴 수 있어. 화면이 바뀌어도 그림은 유지돼.</p></div>
+      </fieldset>
+      <div class="drawing-actions"><button id="download" class="button secondary" type="button">그림 PNG 저장</button><button id="submit-drawing" class="button primary" type="button" disabled>제출하기</button></div>
+      <p id="drawing-status" class="status" role="status">그림을 그리면 제출할 수 있어. 제출하면 이야기와 그림, 활동 시간이 선생님이 확인할 수 있도록 저장돼.</p>
+    </section>
+  </div>
+  </fieldset>
+</main>
+<footer class="wrap"><span class="brand">마음쉼</span><p>잘 말하지 않아도, 잘 그리지 않아도 괜찮아.</p></footer>
+<script type="module" src="./src/main.js"></script>
+</body></html>

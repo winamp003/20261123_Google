@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#fbf8f2"><title>교사 모니터링 · 마음쉼</title><style>[hidden]{display:none!important}</style></head>
+<body class="monitor-page">
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="wrap monitor-header"><a class="brand" href="./index.html"><span class="logo" aria-hidden="true">m✳</span>마음쉼</a><nav aria-label="주요 메뉴"><a href="./index.html">홈으로</a></nav></header>
+<main id="main" class="monitor-main">
+<p id="admin-access-status" class="access-message" role="status">관리자 권한을 확인하고 있어요…</p>
+<section id="teacher-content" hidden aria-label="학생 활동 모니터링">
+<div class="monitor-heading"><div><p class="eyebrow">교사 공간</p><h1>학생들의 하루에 귀 기울여요.</h1><p>날짜와 학생의 기록을 골라 이야기와 그림을 함께 살펴보세요.</p></div><div class="teacher-account"><strong id="teacher-name"></strong><span id="teacher-email"></span><button id="refresh-records" class="monitor-button" type="button">새로고침</button></div></div>
+<p id="monitor-status" class="monitor-status" role="status" aria-live="polite"></p>
+<div class="monitor-grid">
+<aside class="monitor-sidebar" aria-label="날짜 필터와 학생 제출 목록">
+<section class="filter-section" aria-labelledby="filter-title"><div class="sidebar-heading"><h2 id="filter-title">날짜로 살펴보기</h2><span class="timezone-label">한국 시간</span></div><p class="sidebar-help">최신 날짜가 먼저 선택돼요. 여러 날짜를 고를 수 있어요.</p><div class="date-actions"><button id="select-all-dates" type="button">전체 선택</button><button id="clear-dates" type="button">선택 해제</button></div><fieldset id="date-filters"><legend class="sr-only">데이터가 있는 날짜 선택</legend><div id="date-options"></div></fieldset></section>
+<section class="records-section" aria-labelledby="records-title"><div class="sidebar-heading"><h2 id="records-title">학생 기록</h2><span id="record-count">0건</span></div><label class="sr-only" for="record-search">이름 또는 이메일로 찾기</label><input id="record-search" type="search" placeholder="이름 또는 이메일로 찾기" autocomplete="off"><div id="record-list" class="record-list"><p class="empty-note">학생 기록을 불러오고 있어요.</p></div></section>
+</aside>
+<section class="conversation-panel monitor-panel" aria-labelledby="conversation-title"><div class="detail-heading"><p class="eyebrow">마음 나누기</p><h2 id="conversation-title" tabindex="-1">이야기를 선택해 주세요.</h2><p id="selected-email"></p><p id="selected-time"></p></div><dl id="activity-metrics" class="activity-metrics" hidden><div><dt>대화 시간</dt><dd id="chat-duration"></dd></div><div><dt>그림 시간</dt><dd id="drawing-duration"></dd></div><div><dt>대화 횟수</dt><dd id="selected-turns"></dd></div></dl><div id="conversation-log" class="conversation-log" aria-label="선택한 학생의 전체 대화"><p class="empty-note">왼쪽에서 학생 기록을 선택하면 대화가 여기에 표시돼요.</p></div></section>
+<section class="picture-panel monitor-panel" aria-labelledby="picture-title"><div class="detail-heading"><p class="eyebrow">그림으로 표현하기</p><h2 id="picture-title">오늘의 마음 그림</h2></div><div class="picture-stage"><p id="picture-status" class="empty-note" role="status">선택한 학생의 그림이 여기에 표시돼요.</p><img id="student-picture" alt="" hidden></div><button id="retry-picture" class="monitor-button" type="button" hidden>그림 다시 불러오기</button></section>
+</div></section></main>
+<script type="module" src="./src/admin.js"></script>
+</body></html>

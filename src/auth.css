@@ -1,0 +1,19 @@
+[hidden]{display:none!important}
+.home-auth{margin:0 0 18px}
+.home-auth button{font:inherit;cursor:pointer}
+.home-auth button:disabled{cursor:not-allowed;opacity:.55;transform:none}
+.home-auth button:focus-visible{outline:3px solid #9c572e;outline-offset:5px}
+.google-login{border:1px solid #c9cdbf;background:#fffdf9;color:#354a38;min-width:230px;box-shadow:0 2px 6px #354a3808}
+.google-login:hover{background:#f0f1e7}
+.auth-status{font-size:14px;color:#5f6e56;line-height:1.8;min-height:1.8em;max-width:430px;margin-top:12px}
+.auth-error{color:#a13c34}
+.user-session{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:15px;color:#4e6248}
+.user-session p{max-width:330px;overflow-wrap:anywhere}.user-session strong{font-weight:700}
+.google-logout{border:1px solid #c9cdbf;background:transparent;color:#4a5b43;border-radius:9px;padding:8px 12px;font-size:14px!important;min-height:40px}
+.google-logout:hover{background:#eeefe5}
+@media(max-width:600px){.user-session{justify-content:center}.auth-status{margin-inline:auto}.google-login{width:min(100%,300px)}}
+
+.role-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.role-actions .button{min-height:56px;font-size:16px;padding:14px 20px}
+.role-actions .secondary{background:#fffdf9}
+@media(max-width:600px){.role-actions{justify-content:center}.role-actions .button{width:min(100%,300px)}}
