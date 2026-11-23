@@ -1,5 +1,5 @@
 import { collection, getDocsFromServer, doc, deleteDoc } from 'firebase/firestore';
-import { ref, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, getBlob, deleteObject } from 'firebase/storage';
 import { auth, db, storage } from './firebaseConfig.js';
 import { isAdmin } from './accessControl.js';
 
@@ -44,9 +44,9 @@ function imageRef(record) {
 }
 export async function loadPicture(record) {
   requireAdmin();
-  const url = await getDownloadURL(imageRef(record));
+  const blob = await getBlob(imageRef(record), 5 * 1024 * 1024);
   requireAdmin();
-  return url;
+  return blob;
 }
 export async function deleteRecord(record) {
   requireAdmin();

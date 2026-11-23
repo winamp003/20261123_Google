@@ -8,6 +8,7 @@ import { loadRecords, loadPicture, deleteRecord, formatDuration, monitorError } 
 const $ = id => document.getElementById(id);
 let records = [], selectedDates = new Set(), selectedId = null, filterInitialized = false;
 let loading = false, deletingId = null, pictureRequest = 0, loadRequest = 0, authorizedUid = null;
+let pictureObjectUrl = null;
 
 function authorized() { return isAdmin(auth?.currentUser) && auth.currentUser.uid === authorizedUid; }
 function setStatus(text, error = false) {
@@ -27,13 +28,18 @@ function empty(target, text) {
   const p = document.createElement('p'); p.className = 'empty-note'; p.textContent = text;
   target.replaceChildren(p);
 }
+function releasePicture() {
+  $('student-picture').removeAttribute('src');
+  if (pictureObjectUrl) { URL.revokeObjectURL(pictureObjectUrl); pictureObjectUrl = null; }
+}
+window.addEventListener('pagehide', () => { pictureRequest++; releasePicture(); });
 function clearDetail() {
   pictureRequest++;
   $('conversation-title').textContent = '이야기를 선택해 주세요.';
   $('selected-email').textContent = ''; $('selected-time').textContent = '';
   $('activity-metrics').hidden = true;
   empty($('conversation-log'), '왼쪽에서 학생 기록을 선택하면 대화가 여기에 표시돼요.');
-  $('student-picture').hidden = true; $('student-picture').removeAttribute('src');
+  $('student-picture').hidden = true; releasePicture();
   $('student-picture').onload = $('student-picture').onerror = null;
   $('picture-status').hidden = false; $('picture-status').textContent = '선택한 학생의 그림이 여기에 표시돼요.';
   $('retry-picture').hidden = true;
@@ -84,11 +90,11 @@ function renderList() {
 async function showPicture(record) {
   const ticket = ++pictureRequest;
   const image = $('student-picture');
-  image.hidden = true; image.removeAttribute('src'); image.onload = image.onerror = null;
+  image.hidden = true; releasePicture(); image.onload = image.onerror = null;
   $('picture-status').hidden = false; $('picture-status').textContent = '그림을 불러오고 있어요…';
   $('retry-picture').hidden = true;
   try {
-    const url = await loadPicture(record);
+    const blob = await loadPicture(record);
     if (ticket !== pictureRequest || selectedId !== record.id || !authorized()) return;
     image.alt = record.name + ' 학생이 그린 오늘의 마음 그림';
     image.onload = () => {
@@ -101,7 +107,8 @@ async function showPicture(record) {
       $('picture-status').textContent = '그림을 표시하지 못했어요. 다시 불러와 주세요.';
       $('retry-picture').hidden = false;
     };
-    image.src = url;
+    pictureObjectUrl = URL.createObjectURL(blob);
+    image.src = pictureObjectUrl;
   } catch (error) {
     if (ticket !== pictureRequest || !authorized()) return;
     $('picture-status').textContent = monitorError(error); $('retry-picture').hidden = false;

@@ -24,12 +24,12 @@ export async function deleteDoc(reference){
 const storageMock=`const t=window.__monitor;
 export const getStorage=()=>({});
 export const ref=(_storage,path)=>({fullPath:path});
-export async function getDownloadURL(reference){
+export async function getBlob(reference){
  t.pictureLoads.push(reference.fullPath);
  const slow=t.slowPicture && reference.fullPath.includes('/one.png');
  if(slow)await new Promise(resolve=>setTimeout(resolve,120));
  if(t.imageError)throw {code:'storage/object-not-found'};
- return t.imageUrl;
+ const raw=atob(t.imageUrl.split(',')[1]);return new Blob([Uint8Array.from(raw,c=>c.charCodeAt(0))],{type:'image/png'});
 }
 export async function deleteObject(reference){
  t.objectDeletes.push(reference.fullPath);
@@ -121,6 +121,7 @@ await evaluate("document.querySelector('[data-record-id=one] .record-open').clic
 await until("!document.getElementById('student-picture').hidden");
 check(await evaluate("document.querySelectorAll('.monitor-message').length===2 && document.getElementById('conversation-title').textContent==='가학생' && document.getElementById('selected-email').textContent==='가학생@example.test'"),'Record selection shows full conversation and identity');
 check(await evaluate("document.getElementById('chat-duration').textContent==='1분 5초' && document.getElementById('drawing-duration').textContent==='1분 30초'"),'Detail shows chat and drawing durations');
+check(await evaluate("document.getElementById('student-picture').src.startsWith('blob:')"),'Image is displayed from authenticated bytes, not a token URL');
 check(await evaluate("!window.__xss && !document.querySelector('#conversation-log img')"),'Conversation text cannot execute HTML');
 check(await evaluate("window.__monitor.pictureLoads.at(-1)==='studentDrawings/student-uid/one.png' && document.getElementById('student-picture').alt.includes('가학생')"),'Correct Storage PNG is displayed');
 await evaluate("document.querySelector('#date-options input[value=\"2026-11-22\"]').click()");

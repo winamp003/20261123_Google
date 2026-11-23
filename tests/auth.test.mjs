@@ -33,7 +33,7 @@ export async function signOut(){
 const testPlugin = {
   name:'mock-firebase-auth',enforce:'pre',
   resolveId(id){if(['firebase/app','firebase/auth','firebase/firestore','firebase/storage'].includes(id))return '\0auth-test:'+id;},
-  load(id){if(id==='\0auth-test:firebase/app')return mockApp;if(id==='\0auth-test:firebase/auth')return mockAuth;if(id==='\0auth-test:firebase/firestore')return 'export const getFirestore=()=>({});export const collection=()=>({});export const getDocsFromServer=async()=>({docs:[]});export const doc=()=>({});export const deleteDoc=async()=>{};';if(id==='\0auth-test:firebase/storage')return 'export const getStorage=()=>({});export const ref=()=>({});export const getDownloadURL=async()=>\"\";export const deleteObject=async()=>{};';},
+  load(id){if(id==='\0auth-test:firebase/app')return mockApp;if(id==='\0auth-test:firebase/auth')return mockAuth;if(id==='\0auth-test:firebase/firestore')return 'export const getFirestore=()=>({});export const collection=()=>({});export const getDocsFromServer=async()=>({docs:[]});export const doc=()=>({});export const deleteDoc=async()=>{};';if(id==='\0auth-test:firebase/storage')return 'export const getStorage=()=>({});export const ref=()=>({});export const getBlob=async()=>new Blob();export const deleteObject=async()=>{};';},
 };
 const settings={API_KEY:'test-only-key',AUTH_DOMAIN:'test.firebaseapp.com',PROJECT_ID:'test-project',APP_ID:'test-app',
   STORAGE_BUCKET:'test-bucket',MESSAGING_SENDER_ID:'test-sender',MEASUREMENT_ID:''};
